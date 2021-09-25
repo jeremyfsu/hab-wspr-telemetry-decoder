@@ -1,6 +1,6 @@
 loglevel: info
 aprs:
-  send_aprs: true  #if false will only log aprs packets and not actually send
+  send_aprs: false  #if false will only log aprs packets and not actually send
   server: 192.168.1.166 
   port: 14580
   callsign: N0CALL-0
