@@ -16,8 +16,10 @@ Here's the basic process:
 decoded 6 digit maidenhead for a finer position.
 - Constructs an APRS packet and sends it to an APRS port.
 
-At home, I have Xastir and APRSC running, this feeds APRSC which Xastir is
-listening on, and plots the balloons on my Xastir map.
+At home, I have Xastir and a local APRSC instance running, this feeds my local APRSC which Xastir is
+listening on, and plots the balloons on my Xastir map. I'm not sending anything
+to APRS-IS currently. As far as I understand, only designated people are
+actually sending WSPR HAB spots to APRS-IS so they're seen on APRS.FI. 
 
 Things I still would like to do:
 - The timing is tricky, sometimes this gets two good spots (course and fine
