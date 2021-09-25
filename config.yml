@@ -1,0 +1,38 @@
+loglevel: info
+aprs:
+  send_aprs: true  #if false will only log aprs packets and not actually send
+  server: 192.168.1.166 
+  port: 14580
+  callsign: N0CALL-0
+  passcode: 1234 
+balloons:
+  - callsign: VE3KCL
+    ssid: 21
+    flight_id: 0
+    channel: 4
+    slot_a: 2
+    slot_b: 4
+  - callsign: VE3OCL
+    ssid: 22
+    flight_id: 0
+    channel: 3
+    slot_a: 0
+    slot_b: 2
+  - callsign: N0MPM
+    ssid: 13
+    flight_id: 1
+    channel: 8
+    slot_a: 6
+    slot_: 8
+  - callsign: DG4NOB
+    ssid: 8
+    flight_id: Q
+    channel: 0
+    slot_a: 2
+    slot_b: 4
+  - callsign: KD2FOU
+    ssid: 11
+    flight_id: Q
+    channel: 5
+    slot_a: 6
+    slot_b: 8
