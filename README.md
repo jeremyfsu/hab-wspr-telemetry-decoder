@@ -21,13 +21,10 @@ listening on, and plots the balloons on my Xastir map. I'm not sending anything
 to APRS-IS currently. As far as I understand, only designated people are
 actually sending WSPR HAB spots to APRS-IS so they're seen on APRS.FI. 
 
-Things I still would like to do:
-- The timing is tricky, sometimes this gets two good spots (course and fine
-  positions), the 2 minutes later gets the course spot but misses the second
-finer spot.  So it sends two APRS packets, first a fine position, then the
-course position missing altitude and speed.  To solve this I want to add
-a Redis DB that acculmulates mutiple spots, and keeps the most accurate and
-recent data for sending to APRS, without sending duplicate APRS packets.
+## Update: now uses REDIS
+I've added support for REDIS. Now it will keep track of APRS packets sent and not send duplicates.
+
+## Things I still would like to do:
 - Build an embedded Google Map page that maps the balloons, and uses the above Redis
   to get periodic updates
-- Clean up the code a bit
+- Keep the last Grid value in REDIS. If, on the most recent update we only received a 4 digit grid, and it matched a previously received 6 digit grid, then send a new APRS packet but use the 6 digit grid position as long as it's still within the larger 4 digit grid. 
