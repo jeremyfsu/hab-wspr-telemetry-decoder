@@ -4,11 +4,14 @@ require 'click_house'
 require 'dx/grid'
 require 'date'
 require 'yaml'
+require 'redis'
 
 LOG = Logger.new(STDOUT)
 
 Config = YAML.load_file('config.yml')
 LOG.level = Config['loglevel']
+
+Rdb = Redis.new(host: "redis")
 
 PowerMap = {0=>0,3=>1,7=>2,10=>3,13=>4,17=>5,20=>6,23=>7,27=>8,30=>9,33=>10,37=>11,40=>12,43=>13,47=>14,50=>15,53=>16,57=>17,60=>18}
 
@@ -146,7 +149,12 @@ end
 def send_aprs(packets)
   s = TCPSocket.new Config['aprs']['server'], Config['aprs']['port']
   s.puts "user #{Config['aprs']['callsign']} pass #{Config['aprs']['passcode']}"
-  packets.each {|packet| s.puts packet}
+  packets.each do |packet| 
+    unless Rdb.exists?("aprs_sent_#{packet[:key]}")
+      s.puts packet[:data] 
+      Rdb.set("aprs_sent_#{packet[:key]}",packet[:data], {ex: (Time.now + (86400*30)).to_i})
+    end
+  end
   s.close
 end
 
@@ -158,8 +166,9 @@ Config['balloons'].each do |b|
 end
 
 packets = []
-reports.each_value do |r|
+reports.each_pair do |k,r|
   LOG.debug r.inspect
-  packets << format_aprs(Config['aprs']['callsign'],r)
+  packets << {key: k, data: format_aprs(Config['aprs']['callsign'],r)}
 end
 send_aprs(packets) if Config['aprs']['send_aprs']
+
